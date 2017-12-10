@@ -33,7 +33,7 @@ public class Quickstart {
         // we'll just do the bare minimum so you can continue to get a feel
         // for things.
         SecurityUtils.setSecurityManager(securityManager);
-
+        
         // Now that a simple Shiro environment is set up, let's see what you can do:
 
         // get the currently executing user:
@@ -49,7 +49,7 @@ public class Quickstart {
         if (value.equals("aValue")) {
             log.info("---> Retrieved the correct value! [" + value + "]");
         }
-
+        
         // let's login the current user so we can check against roles and permissions:
         // 测试当前的用户是否已经被认证. 即是否已经登录. 
         // 调动 Subject 的 isAuthenticated() 

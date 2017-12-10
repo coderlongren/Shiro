@@ -11,7 +11,7 @@
          (use DefaultSecurityManager instead when there is no web environment)-->
     <!--  
     1. 配置 SecurityManager!
-    -->     
+    -->
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
         <property name="cacheManager" ref="cacheManager"/>
         
@@ -19,7 +19,6 @@
   	
   		<property name="realm" ref="jdbcRealm"/>
     </bean>
-    
     
     <!-- Let's use some enterprise caching support for better performance.  You can replace this with any enterprise
          caching framework implementation that you like (Terracotta+Ehcache, Coherence, GigaSpaces, etc -->
@@ -74,8 +73,8 @@
          to wire things with more control as well utilize nice Spring things such as
          PropertiesPlaceholderConfigurer and abstract beans or anything else we might need: -->
     <!--  
-    6. 配置 ShiroFilter. 
-    6.1 id 必须和 web.xml 文件中配置的 DelegatingFilterProxy 的 <filter-name> 一致.
+    	6. 配置 ShiroFilter. 
+	    6.1 id 必须和 web.xml 文件中配置的 DelegatingFilterProxy 的 <filter-name> 一致.
                       若不一致, 则会抛出: NoSuchBeanDefinitionException. 因为 Shiro 会来 IOC 容器中查找和 <filter-name> 名字对应的 filter bean.
     -->     
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
@@ -83,8 +82,6 @@
         <property name="loginUrl" value="/login.jsp"/>
         <property name="successUrl" value="/list.jsp"/>
         <property name="unauthorizedUrl" value="/unauthorized.jsp"/><!-- 没有权限的页面 -->
-        
-  
         
         <!--  
         	配置哪些页面需要受保护. 
@@ -97,21 +94,19 @@
         
         <property name="filterChainDefinitions">
             <value>
-            
-                /login.jsp = anon
-                
-                
+            	/login.jsp = anon
+                /shiro/login = anon
+                /shiro/logout = logout
                 <!-- /shiro/login = anon
                 /shiro/logout = logout
                 
                 /user.jsp = roles[user]
                 /admin.jsp = roles[admin] -->
                 
-                # everything else requires authentication:
+                # 除了上面配置的可以匿名访问的之外 都需要认证:
                 /** = authc
             </value>
         </property>
-        
     </bean>
     
     <!-- 配置一个 bean, 该 bean 实际上是一个 Map. 通过实例工厂方法的方式 -->

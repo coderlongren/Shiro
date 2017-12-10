@@ -7,6 +7,12 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<p> 第一次匿名的登录 ；拦截login.jsp</p>
+	<h1>登录页面 </h1>
+	<form action="shiro/login" method="POST">
+		username: <input type="text" name= "username" /></br>
+		password: <input type="password" name="password" />
+		</br>
+		<input type="submit" value="submit"/>
+	</form>
 </body>
 </html>
