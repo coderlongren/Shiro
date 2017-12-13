@@ -14,11 +14,19 @@
     -->
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
         <property name="cacheManager" ref="cacheManager"/>
-        
-  	<!-- 	<property name="sessionMode" value="native"/> -->
-  	
-  		<property name="realm" ref="jdbcRealm"/>
-    </bean>
+  		<!-- 	<property name="sessionMode" value="native"/> -->
+  		<!-- <property name="realm" ref="jdbcRealm"/> -->
+  		<!-- 这个anthenticator还是需要的 -->
+  		<property name="authenticator" ref="authenticator">
+  		</property>
+  		
+  		<property name="realms">
+  			<list>
+    			<ref bean="jdbcRealm"/>
+    			<ref bean="secondRealm"/>
+    		</list>
+  		</property>
+    </bean> 
     
     <!-- Let's use some enterprise caching support for better performance.  You can replace this with any enterprise
          caching framework implementation that you like (Terracotta+Ehcache, Coherence, GigaSpaces, etc -->
@@ -35,12 +43,32 @@
              will be used.: -->
         <property name="cacheManagerConfigFile" value="classpath:ehcache.xml"/> 
     </bean>
+    <!-- 配置authenticator -->
+    <bean id="authenticator" class="org.apache.shiro.authc.pam.ModularRealmAuthenticator">
+    	
+    	<property name="authenticationStrategy">
+    		<bean class="org.apache.shiro.authc.pam.AtLeastOneSuccessfulStrategy"></bean>
+    	</property> 
+    </bean>
+    
+    
     
     <!-- 配置 realm -->
-    
-    
    <bean id="jdbcRealm" class="com.coderlong.shrio.realms.ShrioRealm">
-   
+   		<property name="credentialsMatcher">
+    		<bean class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
+    			<property name="hashAlgorithmName" value="MD5"></property>
+    			<property name="hashIterations" value="1024"></property>
+    		</bean>
+    	</property>
+    </bean>
+    <bean id = "secondRealm" class="com.coderlong.shrio.realms.SecondRealm">
+    	<property name="credentialsMatcher">
+    		<bean class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
+    			<property name="hashAlgorithmName" value="MD5"></property>
+    			<property name="hashIterations" value="1024"></property>
+    		</bean>
+    	</property>
     </bean>
 
     <!-- =========================================================
@@ -89,19 +117,18 @@
         	1). anon 可以被匿名访问
         	2). authc 必须认证(即登录)后才可能访问的页面. 
         	3). logout 登出.
-        	4). roles 角色过滤器
+        	4). roles 角色过滤器         很重要!!!!
         -->
         
         <property name="filterChainDefinitions">
             <value>
-            	/login.jsp = anon
-                /shiro/login = anon
-                /shiro/logout = logout
-                <!-- /shiro/login = anon
-                /shiro/logout = logout
+            	/login.jsp = anon <!-- 匿名登录页面 -->
+            	/shiro/login = anon
+                /shiro/logout = logout <!--  登出 -->
                 
                 /user.jsp = roles[user]
-                /admin.jsp = roles[admin] -->
+                /admin.jsp = roles[admin]
+                
                 
                 # 除了上面配置的可以匿名访问的之外 都需要认证:
                 /** = authc

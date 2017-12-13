@@ -29,7 +29,7 @@ public class ShiroHander {
 		System.out.println("进入到hander里面了");
 
         Subject currentUser = SecurityUtils.getSubject();
-		
+		 
         // let's login the current user so we can check against roles and permissions:
         // 测试当前的用户是否已经被认证. 即是否已经登录. 
         // 调动 Subject 的 isAuthenticated() 
@@ -47,7 +47,6 @@ public class ShiroHander {
             // 若没有指定的账户, 则 shiro 将会抛出 unknowAccountexception
             catch (UnknownAccountException uae) {
 //                log.info("----> There is no user with username of " + token.getPrincipal());
-//                return; 
             	System.out.println("登录失败" + uae.getMessage());
             } 
         }
