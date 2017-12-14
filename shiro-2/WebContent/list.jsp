@@ -17,6 +17,6 @@
 	</br>
 	<a href="shiro/logout">logout</a>
 	</br>
-	<a href="shiro/testMethod"></a>
+	<a href="shiro/testMethod">testMethod</a>
 </body>
 </html>

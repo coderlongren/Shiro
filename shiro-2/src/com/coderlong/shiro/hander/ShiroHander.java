@@ -1,5 +1,7 @@
 package com.coderlong.shiro.hander;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
@@ -7,9 +9,14 @@ import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import com.coderlong.service.ShiroService;
+
+import sun.print.resources.serviceui;
 
 /**
 * @author 作者 : coderlong
@@ -21,12 +28,23 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 @RequestMapping("/shiro")
 public class ShiroHander {
+	@Autowired
+	private ShiroService shiroService;
+	
+	@RequestMapping("/testMethod")
+	public String testMethod(HttpSession session){
+		session.setAttribute("name", "苏轼");
+		shiroService.testMethod();
+		return "redirect:/list.jsp";
+	}
+	
+	
 	@RequestMapping("/login")
 	public String login(
 			@RequestParam("username") String username,
 			@RequestParam("password")String password){
 		// 获取当前的 Subject. 调用 SecurityUtils.getSubject();
-		System.out.println("进入到hander里面了");
+		System.out.println("进入到handler里面了");
 
         Subject currentUser = SecurityUtils.getSubject();
 		 
@@ -38,8 +56,8 @@ public class ShiroHander {
             UsernamePasswordToken token = new UsernamePasswordToken(username, password);
             System.out.println("hander里面的token hashcode" + token.hashCode());
             
-            // rememberme
-            token.setRememberMe(true);
+            // 记住我  
+            token.setRememberMe(false);
             try {
             	// 执行登录. 
                 currentUser.login(token); 
@@ -50,8 +68,6 @@ public class ShiroHander {
             	System.out.println("登录失败" + uae.getMessage());
             } 
         }
-		System.out.println("进入到hander里面了");
-		
 		return "redirect:/list.jsp";
 	}
 }

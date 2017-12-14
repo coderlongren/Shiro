@@ -111,6 +111,9 @@
         <property name="successUrl" value="/list.jsp"/>
         <property name="unauthorizedUrl" value="/unauthorized.jsp"/><!-- 没有权限的页面 -->
         
+         <property name="filterChainDefinitionMap" ref="filterChainDefinitionMap"></property>
+        
+        
         <!--  
         	配置哪些页面需要受保护. 
         	以及访问这些页面需要的权限. 
@@ -120,11 +123,11 @@
         	4). roles 角色过滤器         很重要!!!!
         -->
         
-        <property name="filterChainDefinitions">
+        <!-- <property name="filterChainDefinitions">
             <value>
-            	/login.jsp = anon <!-- 匿名登录页面 -->
+            	/login.jsp = anon 匿名登录页面
             	/shiro/login = anon
-                /shiro/logout = logout <!--  登出 -->
+                /shiro/logout = logout  登出
                 
                 /user.jsp = roles[user]
                 /admin.jsp = roles[admin]
@@ -133,17 +136,16 @@
                 # 除了上面配置的可以匿名访问的之外 都需要认证:
                 /** = authc
             </value>
-        </property>
+        </property> -->
     </bean>
-    
-    <!-- 配置一个 bean, 该 bean 实际上是一个 Map. 通过实例工厂方法的方式 -->
-    <!-- <bean id="filterChainDefinitionMap" 
-    	factory-bean="filterChainDefinitionMapBuilder" factory-method="buildFilterChainDefinitionMap"></bean>
-    
+    <bean id="shiroService" class="com.coderlong.service.ShiroService"></bean>
+    <!-- 配置一个bean 应该是一个map，通过实例工厂方法的方式得到bean -->
+    <bean id="filterChainDefinitionMap"
+    	factory-bean="filterChainDefinitionMapBuilder" factory-method="buildFilterChainDefinitionMap">
+    </bean>
+   
     <bean id="filterChainDefinitionMapBuilder"
-    	class="com.atguigu.shiro.factory.FilterChainDefinitionMapBuilder"></bean>
-    
-    <bean id="shiroService"
-    	class="com.atguigu.shiro.services.ShiroService"></bean> -->
+    	class="com.coderlong.factory.FilterChainDefinitionMapBuilder">
+    </bean>
     
 </beans>
