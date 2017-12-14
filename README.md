@@ -17,7 +17,7 @@
 * ` Remember Me`：记住我，这个是非常常见的功能，即一次登录后，下次再来的话不用登
 录了
 
-
+![show1](/show1.png)
 ## shiro的架构
 * `Subject`应用代码直接交互的对象就是Subject,也就是说Shiro的对外API核心就是Subject，subject  
 代表了Subject 代表了当前“用户”,与 Subject 的所有交互都会委托给 SecurityManager；
@@ -27,7 +27,7 @@ SecurityManager 交互；且其管理着所有 Subject；可以看出它是 Shir
 的核心，它负责与 Shiro 的其他组件进行交互，它相当于 SpringMVC 中
 DispatcherServlet 的角色
 * `Realm` Shiro 从 Realm 获取安全数据（如用户、角色、权限）
-
+![show1](/show2.png)
 ## 从内部看待Shiro
 *  Authenticator：
 *   Subject：
